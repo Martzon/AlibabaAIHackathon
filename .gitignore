@@ -16,7 +16,7 @@ $RECYCLE.BIN/
 log.txt
 
 # -------------------------------
-# Node.js / package management
+# Node.js / frontend
 # -------------------------------
 **/node_modules/
 npm-debug.log
@@ -25,27 +25,27 @@ package-lock.json
 yarn.lock
 
 # -------------------------------
-# Compiled output
+# Compiled output / build artifacts
 # -------------------------------
 **/dist/
 **/tmp/
 **/out-tsc/
 **/bazel-out/
-
-# -------------------------------
-# Ionic / Angular / frontend
-# -------------------------------
-**/.ionic/
 **/www/
 **/platforms/
 **/plugins/
-**/.sourcemaps/
-**/.versions/
+
+# -------------------------------
+# Ionic / Angular / Capacitor / frontend
+# -------------------------------
+**/.ionic/
 **/.angular/
 **/.angular/cache/
 **/.nx/
 **/.nx/cache/
 **/.sass-cache/
+**/android/
+**/ios/
 
 # -------------------------------
 # Coverage / test artifacts
@@ -54,7 +54,20 @@ yarn.lock
 testem.log
 libpeerconnection.log
 connect.lock
-/typings/
+**/typings/
+
+# -------------------------------
+# Visual Studio / .NET / Backend
+# -------------------------------
+**/.vs/
+**/*.suo
+**/*.user
+**/*.userosscache
+**/*.sln.docstates
+**/*.vsidx
+**/bin/
+**/obj/
+**/project.nuget.cache
 
 # -------------------------------
 # IDEs and editors
@@ -80,5 +93,5 @@ connect.lock
 
 # Misc
 **/.history/
+**/.cache/
 UserInterfaceState.xcuserstate
-
