@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "8TzFIXc6G4w=",
+  "dgSpecHash": "e8bNUmlmQFk=",
   "success": true,
-  "projectFilePath": "C:\\Users\\martz\\Projects\\My Work\\NutriPic\\NutriPic\\NutriPic.csproj",
+  "projectFilePath": "C:\\Users\\martz\\Projects\\AlibabaHackathon\\Backend\\NutriPic\\NutriPic.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\martz\\.nuget\\packages\\alibabacloud.endpointutil\\0.1.2\\alibabacloud.endpointutil.0.1.2.nupkg.sha512",
     "C:\\Users\\martz\\.nuget\\packages\\alibabacloud.gatewayspi\\0.0.3\\alibabacloud.gatewayspi.0.0.3.nupkg.sha512",

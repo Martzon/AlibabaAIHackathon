@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="WeatherForecast.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="NutriPic.http" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AlibabaCloud.SDK.Imageseg20191230" Version="4.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
   </ItemGroup>
