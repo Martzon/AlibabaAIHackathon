@@ -64,7 +64,7 @@ src/app/
 
 ### Backend Structure
 ```
-Backend/NutriPic/
+Backend/Vigil/
 ├── Controllers/
 │   └── FoodAnalysisController.cs
 ├── Models/
