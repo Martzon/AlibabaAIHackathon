@@ -1,0 +1,26 @@
+.container {
+  padding: 16px;
+}
+
+ion-card {
+  margin-bottom: 16px;
+}
+
+.condition-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.restriction-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.condition-item,
+.allergy-item {
+  margin-bottom: 8px;
+}

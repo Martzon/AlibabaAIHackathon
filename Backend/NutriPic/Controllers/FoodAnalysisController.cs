@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using NutriPic.Services;
+using NutriPic.Models;
 
 namespace NutriPic.Controllers
 {
@@ -34,15 +35,18 @@ namespace NutriPic.Controllers
                 // 3. Recognize food using Alibaba Cloud
                 var recognitionResult = await _foodService.RecognizeFood(imageBytes);
 
-                // 4. Get nutrition data
+                // 4. Get food items with NOVA categories
+                var foodItems = await _nutritionService.GetFoodItemsWithNova(recognitionResult);
+
+                // 5. Get nutrition data
                 var nutritionData = await _nutritionService.GetNutritionInfo(recognitionResult);
 
-                // 5. Generate insights
+                // 6. Generate insights
                 var insights = _nutritionService.GenerateInsights(nutritionData);
 
                 return Ok(new
                 {
-                    FoodItems = recognitionResult.Data.Elements,
+                    FoodItems = foodItems,
                     Nutrition = nutritionData,
                     Insights = insights,
                     Timestamp = DateTime.UtcNow

@@ -1,0 +1,24 @@
+.container {
+  padding: 16px;
+}
+
+ion-card {
+  margin-bottom: 16px;
+}
+
+.profile-check, .scan-section, .recent-scans {
+  margin-bottom: 24px;
+}
+
+h2 {
+  margin-top: 0;
+  color: #333;
+}
+
+ion-button {
+  margin: 8px 0;
+}
+
+ion-item {
+  --padding-start: 0;
+}

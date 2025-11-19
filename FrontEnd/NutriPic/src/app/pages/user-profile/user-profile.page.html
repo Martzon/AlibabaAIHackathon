@@ -1,0 +1,145 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      User Profile
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">User Profile</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="container">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Personal Information</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item>
+            <ion-label position="stacked">Age</ion-label>
+            <ion-input type="number" [(ngModel)]="profile.age"></ion-input>
+          </ion-item>
+          
+          <ion-item>
+            <ion-label position="stacked">Gender</ion-label>
+            <ion-select [(ngModel)]="profile.gender">
+              <ion-select-option value="male">Male</ion-select-option>
+              <ion-select-option value="female">Female</ion-select-option>
+              <ion-select-option value="other">Other</ion-select-option>
+            </ion-select>
+          </ion-item>
+          
+          <ion-item>
+            <ion-label position="stacked">Height (cm)</ion-label>
+            <ion-input type="number" [(ngModel)]="profile.height"></ion-input>
+          </ion-item>
+          
+          <ion-item>
+            <ion-label position="stacked">Weight (kg)</ion-label>
+            <ion-input type="number" [(ngModel)]="profile.weight"></ion-input>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Medical Conditions</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <div *ngFor="let condition of profile.medicalConditions" class="condition-item">
+            <ion-item>
+              <ion-label>
+                <h2>{{ condition.name }}</h2>
+                <p>{{ condition.description }}</p>
+                <div *ngIf="condition.dietaryRestrictions.length > 0">
+                  <ion-chip *ngFor="let restriction of condition.dietaryRestrictions" color="warning">
+                    <ion-label>{{ restriction }}</ion-label>
+                  </ion-chip>
+                </div>
+              </ion-label>
+              <ion-button fill="clear" color="danger" (click)="removeCondition(condition.name)">
+                <ion-icon name="close"></ion-icon>
+              </ion-button>
+            </ion-item>
+          </div>
+        </ion-list>
+
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Add Medical Condition</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <h3>Common Conditions</h3>
+            <div class="condition-chips">
+              <ion-chip *ngFor="let condition of commonConditions" (click)="selectCommonCondition(condition)" color="primary">
+                <ion-label>{{ condition.name }}</ion-label>
+              </ion-chip>
+            </div>
+
+            <ion-item>
+              <ion-label position="stacked">Condition Name</ion-label>
+              <ion-input [(ngModel)]="newCondition.name"></ion-input>
+            </ion-item>
+            
+            <ion-item>
+              <ion-label position="stacked">Description</ion-label>
+              <ion-input [(ngModel)]="newCondition.description"></ion-input>
+            </ion-item>
+            
+            <ion-item>
+              <ion-label position="stacked">Dietary Restrictions</ion-label>
+              <ion-input [(ngModel)]="newRestriction" placeholder="Enter restriction and press Enter"></ion-input>
+              <ion-button slot="end" (click)="addRestriction()">Add</ion-button>
+            </ion-item>
+            
+            <div *ngIf="newCondition.dietaryRestrictions && newCondition.dietaryRestrictions.length > 0" class="restriction-tags">
+              <ion-chip *ngFor="let restriction of newCondition.dietaryRestrictions; let i = index" (click)="removeRestriction(i)">
+                <ion-label>{{ restriction }}</ion-label>
+                <ion-icon name="close"></ion-icon>
+              </ion-chip>
+            </div>
+            
+            <ion-button expand="block" (click)="addCondition()">
+              Add Condition
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Allergies</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <div *ngFor="let allergy of profile.allergies" class="allergy-item">
+            <ion-item>
+              <ion-label>{{ allergy }}</ion-label>
+              <ion-button fill="clear" color="danger" (click)="removeAllergy(allergy)">
+                <ion-icon name="close"></ion-icon>
+              </ion-button>
+            </ion-item>
+          </div>
+        </ion-list>
+
+        <ion-item>
+          <ion-label position="stacked">Add Allergy</ion-label>
+          <ion-input [(ngModel)]="newAllergy" (keyup.enter)="addAllergy()"></ion-input>
+          <ion-button slot="end" (click)="addAllergy()">Add</ion-button>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-button expand="block" (click)="saveProfile()">
+      Save Profile
+    </ion-button>
+  </div>
+</ion-content>

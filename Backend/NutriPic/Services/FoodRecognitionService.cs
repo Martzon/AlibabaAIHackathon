@@ -1,42 +1,29 @@
 ﻿namespace NutriPic.Services;
 
-using AlibabaCloud.OpenApiClient.Models;
-
-// Services/FoodRecognitionService.cs
-using AlibabaCloud.SDK.Imageseg20191230;
-using AlibabaCloud.SDK.Imageseg20191230.Models;
-using AlibabaCloud.TeaUtil.Models;
+using System.Threading.Tasks;
+using NutriPic.Models;
 
 public class FoodRecognitionService
 {
-    private readonly Client _client;
-
     public FoodRecognitionService()
     {
-        var config = new Config
-        {
-            AccessKeyId = Environment.GetEnvironmentVariable("ALIBABA_ACCESS_KEY"),
-            AccessKeySecret = Environment.GetEnvironmentVariable("ALIBABA_SECRET_KEY"),
-            Endpoint = "imageseg.cn-shanghai.aliyuncs.com"
-        };
-        _client = new Client(config);
+        // Mock service
     }
 
-    public async Task<RecognizeFoodResponse> RecognizeFood(byte[] imageData)
+    public async Task<object> RecognizeFood(byte[] imageData)
     {
-        var recognizeRequest = new RecognizeFoodRequest
+        // Mock implementation - return sample data
+        return new
         {
-            ImageURL = await UploadImageToOSS(imageData)
+            Data = new
+            {
+                Elements = new[]
+                {
+                    new { Name = "Sugar", Rate = 0.85 },
+                    new { Name = "Salt", Rate = 0.75 },
+                    new { Name = "Flour", Rate = 0.92 }
+                }
+            }
         };
-
-        var runtime = new RuntimeOptions();
-        return await _client.RecognizeFoodWithOptionsAsync(recognizeRequest, runtime);
-    }
-
-    private async Task<string> UploadImageToOSS(byte[] imageData)
-    {
-        // Implement OSS upload logic
-        // Return public URL for the image
-        return "https://your-bucket.oss-cn-shanghai.aliyuncs.com/temp-food-image.jpg";
     }
 }

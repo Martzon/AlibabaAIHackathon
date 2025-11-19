@@ -1,0 +1,146 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Analysis Results
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Results</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="container" *ngIf="analysisResult">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Food Analysis</ion-card-title>
+        <ion-card-subtitle>Risk assessment and personalized recommendations</ion-card-subtitle>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <!-- Risk Assessment -->
+        <ion-list>
+          <ion-item-divider>
+            <ion-label>Risk Assessment</ion-label>
+          </ion-item-divider>
+          
+          <ion-item *ngFor="let item of analysisResult.FoodItems">
+            <ion-label>
+              <h2>{{ item.name }}</h2>
+              <p>Confidence: {{ (item.rate * 100).toFixed(2) }}%</p>
+              
+              <!-- NOVA Classification -->
+              <ion-chip [color]="getNovaCategory(item) === 1 ? 'success' : 
+                                getNovaCategory(item) === 2 ? 'primary' : 
+                                getNovaCategory(item) === 3 ? 'warning' : 'danger'">
+                <ion-label>NOVA {{ getNovaCategory(item) }}</ion-label>
+              </ion-chip>
+              <p>{{ getNovaDescription(getNovaCategory(item)) }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+
+        <!-- Medical Warnings -->
+        <ion-list *ngIf="hasMedicalWarnings()">
+          <ion-item-divider>
+            <ion-label>Medical Warnings</ion-label>
+          </ion-item-divider>
+          
+          <ion-item *ngFor="let item of analysisResult.FoodItems">
+            <ion-label>
+              <h2>{{ item.name }}</h2>
+              <div class="medical-warnings">
+                <ion-text color="danger" *ngFor="let warning of getMedicalWarnings(item)">
+                  <p><ion-icon name="warning"></ion-icon> {{ warning }}</p>
+                </ion-text>
+              </div>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+
+        <!-- Personalized Advice -->
+        <ion-list>
+          <ion-item-divider>
+            <ion-label>Personalized Advice</ion-label>
+          </ion-item-divider>
+          
+          <ion-item *ngFor="let item of analysisResult.FoodItems">
+            <ion-label>
+              <h2>{{ item.name }}</h2>
+              <div class="personalized-advice">
+                <ion-text color="medium" *ngFor="let advice of getMedicalAdvice(item.name, getNovaCategory(item))">
+                  <p><ion-icon name="information-circle-outline"></ion-icon> {{ advice }}</p>
+                </ion-text>
+              </div>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+
+        <!-- Recommendations -->
+        <ion-list *ngIf="analysisResult.Insights && analysisResult.Insights.length > 0">
+          <ion-item-divider>
+            <ion-label>Recommendations</ion-label>
+          </ion-item-divider>
+          
+          <ion-item *ngFor="let insight of analysisResult.Insights">
+            <ion-icon name="bulb-outline" slot="start"></ion-icon>
+            <ion-label>{{ insight }}</ion-label>
+          </ion-item>
+        </ion-list>
+
+        <!-- Nutrition Summary -->
+        <ion-list *ngIf="analysisResult.Nutrition">
+          <ion-item-divider>
+            <ion-label>Nutrition Summary</ion-label>
+          </ion-item-divider>
+          
+          <ion-item>
+            <ion-label>Calories</ion-label>
+            <ion-note slot="end">{{ analysisResult.Nutrition.Calories }} kcal</ion-note>
+          </ion-item>
+          
+          <ion-item>
+            <ion-label>Protein</ion-label>
+            <ion-note slot="end">{{ analysisResult.Nutrition.Protein }}g</ion-note>
+          </ion-item>
+          
+          <ion-item>
+            <ion-label>Carbohydrates</ion-label>
+            <ion-note slot="end">{{ analysisResult.Nutrition.Carbs }}g</ion-note>
+          </ion-item>
+          
+          <ion-item>
+            <ion-label>Sugar</ion-label>
+            <ion-note slot="end">{{ analysisResult.Nutrition.Sugar }}g</ion-note>
+          </ion-item>
+          
+          <ion-item>
+            <ion-label>Fat</ion-label>
+            <ion-note slot="end">{{ analysisResult.Nutrition.Fat }}g</ion-note>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+    
+    <ion-button expand="block" (click)="goBack()">
+      Scan Another Product
+    </ion-button>
+  </div>
+  
+  <div class="container" *ngIf="!analysisResult">
+    <ion-card>
+      <ion-card-content>
+        <p>No analysis results available. Please scan a food label first.</p>
+        <ion-button expand="block" routerLink="/tabs/tab1">
+          Go to Home
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

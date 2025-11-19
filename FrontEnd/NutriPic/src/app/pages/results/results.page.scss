@@ -1,0 +1,22 @@
+.container {
+  padding: 16px;
+}
+
+ion-card {
+  margin: 0 0 16px 0;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.medical-warnings, .personalized-advice {
+  margin-top: 8px;
+}
+
+.medical-warnings p, .personalized-advice p {
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+ion-chip {
+  margin: 4px 0;
+}
