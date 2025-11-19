@@ -10,6 +10,8 @@ import {
   IonCardTitle, IonCardContent, IonButton, IonIcon, IonSpinner, IonText, 
   IonItem, IonLabel, IonList, IonItemDivider, IonNote, IonChip, IonCardSubtitle
 } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { camera, refresh, informationCircleOutline, bulbOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-medical-analysis',
@@ -32,7 +34,10 @@ export class MedicalAnalysisPage implements OnInit {
   private foodAnalysisService = inject(FoodAnalysisService);
   private userProfileService = inject(UserProfileService);
 
-  constructor() {}
+  constructor() {
+    // Register the icons used in this page
+    addIcons({ camera, refresh, informationCircleOutline, bulbOutline });
+  }
 
   ngOnInit() {
     // Initialize user profile with sample data for demonstration

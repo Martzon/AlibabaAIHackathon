@@ -6,6 +6,8 @@ import { UserProfileService } from '../../services/user-profile.service';
 import { environment } from '../../../environments/environment';
 import OpenAI from 'openai';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonIcon, IonSpinner, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonButtons, IonBackButton } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { cameraOutline, camera as cameraIcon, refresh, search, warning, image as imageIcon } from 'ionicons/icons';
 
 @Component({
   selector: 'app-camera',
@@ -30,6 +32,9 @@ export class CameraPage implements OnInit {
       baseURL: 'https://dashscope-intl.aliyuncs.com/compatible-mode/v1',
       dangerouslyAllowBrowser: true // Required for browser usage
     });
+    
+    // Register the icons used in this page
+    addIcons({ cameraOutline, cameraIcon, refresh, search, warning, imageIcon });
   }
 
   ngOnInit() {

@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { DatePipe, NgIf, NgFor } from '@angular/common';
 import { UserProfileService } from '../../services/user-profile.service';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonItem, IonIcon, IonLabel, IonButton, IonGrid, IonRow, IonCol, IonList } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { scan, camera, image, time, nutrition, cameraOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +19,10 @@ export class HomePage implements OnInit {
   private router = inject(Router);
   private userProfileService = inject(UserProfileService);
 
-  constructor() {}
+  constructor() {
+    // Register the icons used in this page
+    addIcons({ scan, camera, image, time, nutrition, cameraOutline });
+  }
   
   ngOnInit() {
     // Load recent scans from localStorage

@@ -3,6 +3,8 @@ import { UserProfileService, UserProfile, MedicalCondition } from '../../service
 import { FormsModule } from '@angular/forms';
 import { NgIf, NgFor } from '@angular/common';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonItem, IonLabel, IonInput, IonSelect, IonSelectOption, IonButton, IonList, IonChip, IonIcon } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { personCircle, fitness, close, medkit, warning } from 'ionicons/icons';
 
 @Component({
   selector: 'app-user-profile',
@@ -35,6 +37,9 @@ export class UserProfilePage {
 
   constructor() {
     this.profile = this.userProfileService.getUserProfile();
+    
+    // Register the icons used in this page
+    addIcons({ personCircle, fitness, close, medkit, warning });
   }
 
   saveProfile() {
