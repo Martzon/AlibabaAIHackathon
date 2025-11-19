@@ -1,0 +1,102 @@
+// App Theme Variables
+// Based on the app icon colors and design
+
+:root {
+  // Primary color - used for toolbar, buttons, and main accents
+  --ion-color-primary: #4a86e8;
+  --ion-color-primary-rgb: 74, 134, 232;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #4176cc;
+  --ion-color-primary-tint: #5c93ea;
+
+  // Secondary color - used for secondary elements
+  --ion-color-secondary: #667eea;
+  --ion-color-secondary-rgb: 102, 126, 234;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #5a6fd8;
+  --ion-color-secondary-tint: #758bec;
+
+  // Tertiary color - used for tertiary elements
+  --ion-color-tertiary: #764ba2;
+  --ion-color-tertiary-rgb: 118, 75, 162;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #68428f;
+  --ion-color-tertiary-tint: #845ca9;
+
+  // Success color
+  --ion-color-success: #28a745;
+  --ion-color-success-rgb: 40, 167, 69;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #23923d;
+  --ion-color-success-tint: #3cb157;
+
+  // Warning color
+  --ion-color-warning: #ffc107;
+  --ion-color-warning-rgb: 255, 193, 7;
+  --ion-color-warning-contrast: #000000;
+  --ion-color-warning-contrast-rgb: 0, 0, 0;
+  --ion-color-warning-shade: #e0aa06;
+  --ion-color-warning-tint: #ffca21;
+
+  // Danger color
+  --ion-color-danger: #dc3545;
+  --ion-color-danger-rgb: 220, 53, 69;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #c22f3d;
+  --ion-color-danger-tint: #e04958;
+
+  // Light color
+  --ion-color-light: #f8f9fa;
+  --ion-color-light-rgb: 248, 249, 250;
+  --ion-color-light-contrast: #000000;
+  --ion-color-light-contrast-rgb: 0, 0, 0;
+  --ion-color-light-shade: #dadbdc;
+  --ion-color-light-tint: #f9fafb;
+
+  // Medium color
+  --ion-color-medium: #6c757d;
+  --ion-color-medium-rgb: 108, 117, 125;
+  --ion-color-medium-contrast: #ffffff;
+  --ion-color-medium-contrast-rgb: 255, 255, 255;
+  --ion-color-medium-shade: #5f676e;
+  --ion-color-medium-tint: #7b838a;
+
+  // Dark color
+  --ion-color-dark: #212529;
+  --ion-color-dark-rgb: 33, 37, 41;
+  --ion-color-dark-contrast: #ffffff;
+  --ion-color-dark-contrast-rgb: 255, 255, 255;
+  --ion-color-dark-shade: #1d2024;
+  --ion-color-dark-tint: #373b3e;
+}
+
+// iOS Theme
+.ios body {
+  --ion-background-color: #ffffff;
+  --ion-text-color: #000000;
+  
+  --ion-toolbar-background: var(--ion-color-primary);
+  --ion-toolbar-color: #000000;
+  
+  --ion-tab-bar-background: var(--ion-color-light);
+  --ion-tab-bar-color: var(--ion-color-medium);
+  --ion-tab-bar-color-activated: var(--ion-color-primary);
+}
+
+// Material Design Theme
+.md body {
+  --ion-background-color: #ffffff;
+  --ion-text-color: #000000;
+  
+  --ion-toolbar-background: var(--ion-color-primary);
+  --ion-toolbar-color: #000000;
+  
+  --ion-tab-bar-background: var(--ion-color-light);
+  --ion-tab-bar-color: var(--ion-color-medium);
+  --ion-tab-bar-color-activated: var(--ion-color-primary);
+}

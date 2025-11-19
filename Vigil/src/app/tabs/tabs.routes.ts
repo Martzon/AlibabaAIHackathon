@@ -19,6 +19,10 @@ export const routes: Routes = [
         loadComponent: () => import('../pages/camera/camera.page').then(m => m.CameraPage)
       },
       {
+        path: 'medical-analysis',
+        loadComponent: () => import('../pages/medical-analysis/medical-analysis.page').then(m => m.MedicalAnalysisPage)
+      },
+      {
         path: 'results',
         loadComponent: () => import('../pages/results/results.page').then(m => m.ResultsPage)
       },

@@ -7,6 +7,8 @@
   margin-bottom: 16px;
   border-radius: 16px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  color: #000000;
 }
 
 .summary-card ion-card-title, .extracted-text-card ion-card-title, 
@@ -16,6 +18,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  color: #000000;
 }
 
 .recommendation-summary {
@@ -24,47 +27,48 @@
 }
 
 .recommendation-safe {
-  color: #28a745;
+  color: var(--ion-color-success);
   font-weight: bold;
   font-size: 24px;
   margin-bottom: 8px;
 }
 
 .recommendation-caution {
-  color: #ffc107;
+  color: var(--ion-color-warning);
   font-weight: bold;
   font-size: 24px;
   margin-bottom: 8px;
 }
 
 .recommendation-avoid {
-  color: #dc3545;
+  color: var(--ion-color-danger);
   font-weight: bold;
   font-size: 24px;
   margin-bottom: 8px;
 }
 
 .extracted-text-content {
-  background-color: var(--ion-color-light);
+  background-color: #f8f9fa;
   border-radius: 12px;
   padding: 16px;
   font-family: monospace;
   white-space: pre-wrap;
   word-break: break-word;
+  color: #000000;
 }
 
 .severity-high {
-  color: #dc3545;
+  color: var(--ion-color-danger);
   font-weight: bold;
 }
 
 .severity-medium {
-  color: #ffc107;
+  color: var(--ion-color-warning);
   font-weight: bold;
 }
 
 .severity-low {
-  color: #28a745;
+  color: var(--ion-color-success);
   font-weight: bold;
 }
 
@@ -78,10 +82,12 @@
   display: flex;
   align-items: center;
   gap: 4px;
+  color: #000000;
 }
 
 .personalized-advice ion-icon {
   font-size: 16px;
+  color: var(--ion-color-primary);
 }
 
 .back-button {
@@ -90,6 +96,8 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 16px;
+  --background: var(--ion-color-primary);
+  --color: var(--ion-color-primary-contrast);
 }
 
 .empty-state-content {
@@ -102,15 +110,17 @@
   
   ion-icon {
     margin-bottom: 16px;
+    color: #666666;
   }
   
   h3 {
     margin-bottom: 8px;
     font-weight: 600;
+    color: #000000;
   }
   
   p {
-    color: var(--ion-color-medium);
+    color: #666666;
     margin-bottom: 24px;
   }
 }

@@ -4,11 +4,23 @@ import { FoodAnalysisService } from '../../services/food-analysis.service';
 import { AnalysisResult } from '../../services/food-analysis.service';
 import { UserProfileService } from '../../services/user-profile.service';
 import { finalize } from 'rxjs/operators';
+import { NgIf, NgFor } from '@angular/common';
+import { 
+  IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardHeader, 
+  IonCardTitle, IonCardContent, IonButton, IonIcon, IonSpinner, IonText, 
+  IonItem, IonLabel, IonList, IonItemDivider, IonNote, IonChip, IonCardSubtitle
+} from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-medical-analysis',
   templateUrl: './medical-analysis.page.html',
   styleUrls: ['./medical-analysis.page.scss'],
+  imports: [
+    NgIf, NgFor,
+    IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardHeader, 
+    IonCardTitle, IonCardContent, IonButton, IonIcon, IonSpinner, IonText, 
+    IonItem, IonLabel, IonList, IonItemDivider, IonNote, IonChip, IonCardSubtitle
+  ]
 })
 export class MedicalAnalysisPage implements OnInit {
   capturedImage: string | undefined;
