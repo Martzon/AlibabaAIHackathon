@@ -1,27 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { Location, NgIf, NgFor } from '@angular/common';
 import { UserProfileService } from '../../services/user-profile.service';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonList, IonItem, IonItemDivider, IonLabel, IonChip, IonIcon, IonNote, IonText, IonButton, IonButtons, IonBackButton } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonList, IonItem, IonLabel, IonChip, IonIcon, IonNote, IonText, IonButton, IonButtons, IonBackButton } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-results',
   templateUrl: 'results.page.html',
   styleUrls: ['results.page.scss'],
-  imports: [NgIf, NgFor, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonList, IonItem, IonItemDivider, IonLabel, IonChip, IonIcon, IonNote, IonText, IonButton, IonButtons, IonBackButton]
+  imports: [NgIf, NgFor, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonList, IonItem, IonLabel, IonChip, IonIcon, IonNote, IonText, IonButton, IonButtons, IonBackButton]
 })
 export class ResultsPage implements OnInit {
   analysisResult: any;
   qwen3Analysis: any;
   extractedText: string = '';
   
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private location: Location,
-    private userProfileService: UserProfileService
-  ) {}
+  // Use inject() instead of constructor parameter injection
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private location = inject(Location);
+  private userProfileService = inject(UserProfileService);
+
+  constructor() {}
 
   ngOnInit() {
     // Get the analysis result from navigation state
@@ -30,34 +31,6 @@ export class ResultsPage implements OnInit {
       this.analysisResult = navigation.extras.state?.['analysisResult'];
       this.qwen3Analysis = navigation.extras.state?.['qwen3Analysis'];
       this.extractedText = navigation.extras.state?.['extractedText'] || '';
-      
-      // Save to recent scans
-      this.saveToRecentScans();
-    }
-  }
-  
-  saveToRecentScans() {
-    if (this.analysisResult && this.analysisResult.FoodItems && this.analysisResult.FoodItems.length > 0) {
-      const scan = {
-        id: Date.now(),
-        name: this.analysisResult.FoodItems[0].name,
-        date: new Date()
-      };
-      
-      // Get existing scans from localStorage
-      const scans = localStorage.getItem('recentScans');
-      let recentScans: any[] = scans ? JSON.parse(scans) : [];
-      
-      // Add new scan to the beginning of the array
-      recentScans.unshift(scan);
-      
-      // Keep only the last 10 scans
-      if (recentScans.length > 10) {
-        recentScans = recentScans.slice(0, 10);
-      }
-      
-      // Save to localStorage
-      localStorage.setItem('recentScans', JSON.stringify(recentScans));
     }
   }
   

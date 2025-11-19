@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { FoodAnalysisService } from '../../services/food-analysis.service';
 import { AnalysisResult } from '../../services/food-analysis.service';
@@ -16,10 +16,11 @@ export class MedicalAnalysisPage implements OnInit {
   isLoading = false;
   errorMessage: string | undefined;
 
-  constructor(
-    private foodAnalysisService: FoodAnalysisService,
-    private userProfileService: UserProfileService
-  ) {}
+  // Use inject() instead of constructor parameter injection
+  private foodAnalysisService = inject(FoodAnalysisService);
+  private userProfileService = inject(UserProfileService);
+
+  constructor() {}
 
   ngOnInit() {
     // Initialize user profile with sample data for demonstration

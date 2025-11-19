@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { UserProfileService, UserProfile, MedicalCondition } from '../../services/user-profile.service';
 import { FormsModule } from '@angular/forms';
 import { NgIf, NgFor } from '@angular/common';
@@ -11,7 +11,7 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardHeader, Io
   standalone: true,
   imports: [FormsModule, NgIf, NgFor, IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonItem, IonLabel, IonInput, IonSelect, IonSelectOption, IonButton, IonList, IonChip, IonIcon]
 })
-export class UserProfilePage implements OnInit {
+export class UserProfilePage {
   profile: UserProfile;
   newCondition: MedicalCondition = {
     name: '',
@@ -30,11 +30,11 @@ export class UserProfilePage implements OnInit {
     { name: 'Obesity', description: 'Excess body weight with high BMI', dietaryRestrictions: ['sugar', 'processed foods'] }
   ];
 
-  constructor(private userProfileService: UserProfileService) {
-    this.profile = this.userProfileService.getUserProfile();
-  }
+  // Use inject() instead of constructor parameter injection
+  private userProfileService = inject(UserProfileService);
 
-  ngOnInit() {
+  constructor() {
+    this.profile = this.userProfileService.getUserProfile();
   }
 
   saveProfile() {

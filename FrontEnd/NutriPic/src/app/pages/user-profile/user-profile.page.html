@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      User Profile
+      My Profile
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,26 +9,30 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">User Profile</ion-title>
+      <ion-title size="large">My Profile</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <div class="container">
-    <ion-card>
+    <!-- Personal Information Card -->
+    <ion-card class="profile-card">
       <ion-card-header>
-        <ion-card-title>Personal Information</ion-card-title>
+        <ion-card-title>
+          <ion-icon name="person-circle" slot="start"></ion-icon>
+          Personal Information
+        </ion-card-title>
       </ion-card-header>
       
       <ion-card-content>
         <ion-list>
           <ion-item>
             <ion-label position="stacked">Age</ion-label>
-            <ion-input type="number" [(ngModel)]="profile.age"></ion-input>
+            <ion-input type="number" [(ngModel)]="profile.age" placeholder="Enter your age"></ion-input>
           </ion-item>
           
           <ion-item>
             <ion-label position="stacked">Gender</ion-label>
-            <ion-select [(ngModel)]="profile.gender">
+            <ion-select [(ngModel)]="profile.gender" placeholder="Select your gender">
               <ion-select-option value="male">Male</ion-select-option>
               <ion-select-option value="female">Female</ion-select-option>
               <ion-select-option value="other">Other</ion-select-option>
@@ -37,21 +41,26 @@
           
           <ion-item>
             <ion-label position="stacked">Height (cm)</ion-label>
-            <ion-input type="number" [(ngModel)]="profile.height"></ion-input>
+            <ion-input type="number" [(ngModel)]="profile.height" placeholder="Enter your height"></ion-input>
           </ion-item>
           
           <ion-item>
             <ion-label position="stacked">Weight (kg)</ion-label>
-            <ion-input type="number" [(ngModel)]="profile.weight"></ion-input>
+            <ion-input type="number" [(ngModel)]="profile.weight" placeholder="Enter your weight"></ion-input>
           </ion-item>
         </ion-list>
       </ion-card-content>
     </ion-card>
 
-    <ion-card>
+    <!-- Medical Conditions Card -->
+    <ion-card class="profile-card">
       <ion-card-header>
-        <ion-card-title>Medical Conditions</ion-card-title>
+        <ion-card-title>
+          <ion-icon name="fitness" slot="start"></ion-icon>
+          Medical Conditions
+        </ion-card-title>
       </ion-card-header>
+      
       <ion-card-content>
         <ion-list>
           <div *ngFor="let condition of profile.medicalConditions" class="condition-item">
@@ -59,7 +68,7 @@
               <ion-label>
                 <h2>{{ condition.name }}</h2>
                 <p>{{ condition.description }}</p>
-                <div *ngIf="condition.dietaryRestrictions.length > 0">
+                <div *ngIf="condition.dietaryRestrictions.length > 0" class="restriction-tags">
                   <ion-chip *ngFor="let restriction of condition.dietaryRestrictions" color="warning">
                     <ion-label>{{ restriction }}</ion-label>
                   </ion-chip>
@@ -72,10 +81,11 @@
           </div>
         </ion-list>
 
-        <ion-card>
+        <ion-card class="add-condition-card">
           <ion-card-header>
             <ion-card-title>Add Medical Condition</ion-card-title>
           </ion-card-header>
+          
           <ion-card-content>
             <h3>Common Conditions</h3>
             <div class="condition-chips">
@@ -86,28 +96,28 @@
 
             <ion-item>
               <ion-label position="stacked">Condition Name</ion-label>
-              <ion-input [(ngModel)]="newCondition.name"></ion-input>
+              <ion-input [(ngModel)]="newCondition.name" placeholder="Enter condition name"></ion-input>
             </ion-item>
             
             <ion-item>
               <ion-label position="stacked">Description</ion-label>
-              <ion-input [(ngModel)]="newCondition.description"></ion-input>
+              <ion-input [(ngModel)]="newCondition.description" placeholder="Enter description"></ion-input>
             </ion-item>
             
             <ion-item>
               <ion-label position="stacked">Dietary Restrictions</ion-label>
-              <ion-input [(ngModel)]="newRestriction" placeholder="Enter restriction and press Enter"></ion-input>
+              <ion-input [(ngModel)]="newRestriction" placeholder="Enter restriction and press Enter" (keyup.enter)="addRestriction()"></ion-input>
               <ion-button slot="end" (click)="addRestriction()">Add</ion-button>
             </ion-item>
             
             <div *ngIf="newCondition.dietaryRestrictions && newCondition.dietaryRestrictions.length > 0" class="restriction-tags">
-              <ion-chip *ngFor="let restriction of newCondition.dietaryRestrictions; let i = index" (click)="removeRestriction(i)">
+              <ion-chip *ngFor="let restriction of newCondition.dietaryRestrictions; let i = index" (click)="removeRestriction(i)" color="secondary">
                 <ion-label>{{ restriction }}</ion-label>
                 <ion-icon name="close"></ion-icon>
               </ion-chip>
             </div>
             
-            <ion-button expand="block" (click)="addCondition()">
+            <ion-button expand="block" (click)="addCondition()" color="primary">
               Add Condition
             </ion-button>
           </ion-card-content>
@@ -115,10 +125,15 @@
       </ion-card-content>
     </ion-card>
 
-    <ion-card>
+    <!-- Medications Card -->
+    <ion-card class="profile-card">
       <ion-card-header>
-        <ion-card-title>Medications</ion-card-title>
+        <ion-card-title>
+          <ion-icon name="medkit" slot="start"></ion-icon>
+          Medications
+        </ion-card-title>
       </ion-card-header>
+      
       <ion-card-content>
         <ion-list>
           <div *ngFor="let medication of profile.medications" class="medication-item">
@@ -133,16 +148,21 @@
 
         <ion-item>
           <ion-label position="stacked">Add Medication</ion-label>
-          <ion-input [(ngModel)]="newMedication" (keyup.enter)="addMedication()"></ion-input>
+          <ion-input [(ngModel)]="newMedication" placeholder="Enter medication name" (keyup.enter)="addMedication()"></ion-input>
           <ion-button slot="end" (click)="addMedication()">Add</ion-button>
         </ion-item>
       </ion-card-content>
     </ion-card>
 
-    <ion-card>
+    <!-- Allergies Card -->
+    <ion-card class="profile-card">
       <ion-card-header>
-        <ion-card-title>Allergies</ion-card-title>
+        <ion-card-title>
+          <ion-icon name="warning" slot="start"></ion-icon>
+          Allergies
+        </ion-card-title>
       </ion-card-header>
+      
       <ion-card-content>
         <ion-list>
           <div *ngFor="let allergy of profile.allergies" class="allergy-item">
@@ -157,13 +177,14 @@
 
         <ion-item>
           <ion-label position="stacked">Add Allergy</ion-label>
-          <ion-input [(ngModel)]="newAllergy" (keyup.enter)="addAllergy()"></ion-input>
+          <ion-input [(ngModel)]="newAllergy" placeholder="Enter allergy name" (keyup.enter)="addAllergy()"></ion-input>
           <ion-button slot="end" (click)="addAllergy()">Add</ion-button>
         </ion-item>
       </ion-card-content>
     </ion-card>
 
-    <ion-button expand="block" (click)="saveProfile()">
+    <!-- Save Button -->
+    <ion-button expand="block" (click)="saveProfile()" color="primary" class="save-button">
       Save Profile
     </ion-button>
   </div>

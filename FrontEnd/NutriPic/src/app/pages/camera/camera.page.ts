@@ -1,34 +1,53 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { UserProfileService } from '../../services/user-profile.service';
 import { environment } from '../../../environments/environment';
 import OpenAI from 'openai';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonIcon, IonSpinner, IonText, IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonIcon, IonSpinner, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonButtons, IonBackButton } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-camera',
   templateUrl: 'camera.page.html',
   styleUrls: ['camera.page.scss'],
-  imports: [NgIf, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonIcon, IonSpinner, IonText, IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent]
+  imports: [NgIf, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonIcon, IonSpinner, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonButtons, IonBackButton]
 })
-export class CameraPage {
+export class CameraPage implements OnInit {
   capturedImage: string | undefined;
   isLoading = false;
   errorMessage: string | undefined;
   private openai: OpenAI;
+  
+  // Use inject() instead of constructor parameter injection
+  private router = inject(Router);
+  private userProfileService = inject(UserProfileService);
 
-  constructor(
-    private router: Router,
-    private userProfileService: UserProfileService
-  ) {
+  constructor() {
     // Initialize OpenAI client for DashScope
     this.openai = new OpenAI({
       apiKey: environment.dashscopeApiKey,
       baseURL: 'https://dashscope-intl.aliyuncs.com/compatible-mode/v1',
       dangerouslyAllowBrowser: true // Required for browser usage
     });
+  }
+
+  ngOnInit() {
+    // Check if we should automatically trigger camera or gallery based on navigation state
+    const navigation = this.router.getCurrentNavigation();
+    const source = navigation?.extras?.state?.['source'];
+    
+    if (source === 'camera') {
+      // Automatically trigger camera
+      setTimeout(() => {
+        this.takePicture();
+      }, 500);
+    } else if (source === 'gallery') {
+      // Automatically trigger gallery
+      setTimeout(() => {
+        this.selectFromGallery();
+      }, 500);
+    }
   }
 
   async takePicture() {

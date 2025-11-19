@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface FoodItem {
@@ -29,15 +29,17 @@ export interface AnalysisResult {
 export class FoodAnalysisService {
   private apiUrl = '/api/FoodAnalysis/analyze'; // Adjust based on your backend URL
 
-  constructor(private http: HttpClient) { }
+  // Use inject() instead of constructor parameter injection
+  private http = inject(HttpClient);
+
+  constructor() { }
 
   analyzeFood(imageBlob: Blob): Observable<AnalysisResult> {
     const formData = new FormData();
     formData.append('image', imageBlob, 'food-image.jpg');
 
-    const headers = new HttpHeaders();
     // Don't set Content-Type header, let the browser set it with the boundary
     
-    return this.http.post<AnalysisResult>(this.apiUrl, formData, { headers });
+    return this.http.post<AnalysisResult>(this.apiUrl, formData);
   }
 }

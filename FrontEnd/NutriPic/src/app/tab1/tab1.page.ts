@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { DatePipe, NgIf, NgFor } from '@angular/common';
 import { UserProfileService } from '../services/user-profile.service';
@@ -13,10 +13,11 @@ import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, Io
 export class Tab1Page implements OnInit {
   recentScans: any[] = [];
   
-  constructor(
-    private router: Router,
-    private userProfileService: UserProfileService
-  ) {}
+  // Use inject() instead of constructor parameter injection
+  private router = inject(Router);
+  private userProfileService = inject(UserProfileService);
+
+  constructor() {}
   
   ngOnInit() {
     // Load recent scans from localStorage
@@ -36,8 +37,18 @@ export class Tab1Page implements OnInit {
     }
   }
   
-  showFromCameraOrGallery() {
-    this.router.navigate(['/tabs/camera']);
+  scanFromCamera() {
+    // Navigate to camera page with source parameter
+    this.router.navigate(['/tabs/camera'], { 
+      state: { source: 'camera' } 
+    });
+  }
+  
+  scanFromGallery() {
+    // Navigate to camera page with source parameter
+    this.router.navigate(['/tabs/camera'], { 
+      state: { source: 'gallery' } 
+    });
   }
   
   viewScan(scan: any) {
