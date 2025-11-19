@@ -1,0 +1,93 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      NutriScan
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">NutriScan</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="container">
+    <!-- Welcome Section -->
+    <ion-card class="welcome-card">
+      <ion-card-header>
+        <ion-card-title>Welcome to NutriScan</ion-card-title>
+        <ion-card-subtitle>Smart Food Analysis for Better Health</ion-card-subtitle>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <p>Scan food labels to get personalized health insights based on your medical profile.</p>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Scan Section -->
+    <ion-card class="scan-card">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="scan" slot="start"></ion-icon>
+          Scan Food Label
+        </ion-card-title>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6">
+              <ion-button expand="block" (click)="scanFromCamera()" color="primary" class="scan-button">
+                <ion-icon name="camera" slot="start"></ion-icon>
+                Camera
+              </ion-button>
+            </ion-col>
+            <ion-col size="6">
+              <ion-button expand="block" (click)="scanFromGallery()" color="secondary" class="scan-button">
+                <ion-icon name="image" slot="start"></ion-icon>
+                Gallery
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        
+        <div class="scan-instruction">
+          <p class="instruction-text">Point your camera at a food label or upload an image from your gallery to analyze ingredients and get personalized health recommendations.</p>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Recent Scans Section -->
+    <ion-card class="recent-scans-card" *ngIf="recentScans.length > 0">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="time" slot="start"></ion-icon>
+          Recent Scans
+        </ion-card-title>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <ion-list>
+          <ion-item *ngFor="let scan of recentScans" (click)="viewScan(scan)" detail="true" class="scan-item">
+            <ion-icon name="nutrition" slot="start" color="primary"></ion-icon>
+            <ion-label>
+              <h3>{{ scan.name }}</h3>
+              <p>{{ scan.date | date:'short' }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Empty State -->
+    <ion-card class="empty-state-card" *ngIf="recentScans.length === 0">
+      <ion-card-content class="empty-state-content">
+        <ion-icon name="camera-outline" size="large" color="medium"></ion-icon>
+        <h3>No Scans Yet</h3>
+        <p>Start by scanning a food label to see your analysis history here.</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

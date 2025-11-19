@@ -81,9 +81,9 @@ I've implemented the requested flow for the NutriScan application that follows t
    - Offers nutrition summary
 
 ### Updated Pages
-1. **Home Page** (`/tabs/tab1`)
+1. **Home Page** (`/tabs/home`)
    - Profile completion status check
-   - Scan buttons for camera/gallery
+   - Scan buttons for camera/gallery   
    - Recent scans display
 
 2. **Tabs Structure**
