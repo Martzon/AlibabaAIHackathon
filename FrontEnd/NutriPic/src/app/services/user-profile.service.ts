@@ -22,17 +22,20 @@ export interface UserProfile {
 })
 export class UserProfileService {
   private userProfile: UserProfile = {
-    age: 30,
-    gender: 'male',
-    height: 175,
-    weight: 70,
+    age: 0,
+    gender: '',
+    height: 0,
+    weight: 0,
     medicalConditions: [],
     allergies: [],
     medications: [],
     dietaryPreferences: []
   };
 
-  constructor() { }
+  constructor() {
+    // Load user profile from localStorage on initialization
+    this.loadProfile();
+  }
 
   getUserProfile(): UserProfile {
     return this.userProfile;
@@ -40,36 +43,43 @@ export class UserProfileService {
 
   updateUserProfile(profile: Partial<UserProfile>): void {
     this.userProfile = { ...this.userProfile, ...profile };
+    this.saveProfile();
   }
 
   addMedicalCondition(condition: MedicalCondition): void {
     this.userProfile.medicalConditions.push(condition);
+    this.saveProfile();
   }
 
   removeMedicalCondition(conditionName: string): void {
     this.userProfile.medicalConditions = this.userProfile.medicalConditions.filter(
       condition => condition.name !== conditionName
     );
+    this.saveProfile();
   }
 
   addAllergy(allergy: string): void {
     if (!this.userProfile.allergies.includes(allergy)) {
       this.userProfile.allergies.push(allergy);
+      this.saveProfile();
     }
+  }
+
+  removeAllergy(allergy: string): void {
+    this.userProfile.allergies = this.userProfile.allergies.filter(a => a !== allergy);
+    this.saveProfile();
   }
 
   addMedication(medication: string): void {
     if (!this.userProfile.medications.includes(medication)) {
       this.userProfile.medications.push(medication);
+      this.saveProfile();
     }
   }
 
   removeMedication(medication: string): void {
     this.userProfile.medications = this.userProfile.medications.filter(m => m !== medication);
-  }
-
-  removeAllergy(allergy: string): void {
-    this.userProfile.allergies = this.userProfile.allergies.filter(a => a !== allergy);
+    this.saveProfile();
   }
 
   getPersonalizedAdvice(ingredient: string, novaCategory: number): string[] {
@@ -105,13 +115,26 @@ export class UserProfileService {
     }
 
     // Weight-related advice
-    const bmi = profile.weight / Math.pow(profile.height / 100, 2);
-    if (bmi > 25) {
-      if (novaCategory >= 3) {
-        advice.push('As someone with elevated BMI, consider limiting processed foods');
+    if (profile.height > 0 && profile.weight > 0) {
+      const bmi = profile.weight / Math.pow(profile.height / 100, 2);
+      if (bmi > 25) {
+        if (novaCategory >= 3) {
+          advice.push('As someone with elevated BMI, consider limiting processed foods');
+        }
       }
     }
 
     return advice;
+  }
+
+  private saveProfile(): void {
+    localStorage.setItem('userProfile', JSON.stringify(this.userProfile));
+  }
+
+  private loadProfile(): void {
+    const profile = localStorage.getItem('userProfile');
+    if (profile) {
+      this.userProfile = JSON.parse(profile);
+    }
   }
 }

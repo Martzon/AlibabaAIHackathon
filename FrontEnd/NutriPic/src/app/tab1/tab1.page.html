@@ -19,53 +19,31 @@
         <ion-card-title>Welcome to NutriScan</ion-card-title>
         <ion-card-subtitle>Analyze food ingredients for health insights</ion-card-subtitle>
       </ion-card-header>
-      
+
       <ion-card-content>
-        <div class="profile-check">
-          <h2>Medical Profile Status</h2>
-          <ion-item>
-            <ion-icon name="person" slot="start"></ion-icon>
-            <ion-label>Profile Complete</ion-label>
-            <ion-toggle [checked]="isProfileComplete"></ion-toggle>
-          </ion-item>
-          <ion-button expand="block" routerLink="/tabs/user-profile">
-            <ion-icon name="create"></ion-icon>
-            {{ isProfileComplete ? 'Update Profile' : 'Complete Profile' }}
-          </ion-button>
-        </div>
-        
         <div class="scan-section">
           <h2>Scan Food Label</h2>
           <ion-grid>
             <ion-row>
-              <ion-col size="6">
-                <ion-button expand="block" (click)="scanFromCamera()">
+              <ion-col size="12">
+                <ion-button expand="block" (click)="showFromCameraOrGallery()">
                   <ion-icon name="camera"></ion-icon>
-                  Camera
-                </ion-button>
-              </ion-col>
-              <ion-col size="6">
-                <ion-button expand="block" (click)="scanFromGallery()">
-                  <ion-icon name="image"></ion-icon>
-                  Gallery
+                  Add Photo
                 </ion-button>
               </ion-col>
             </ion-row>
           </ion-grid>
         </div>
-        
+
         <div class="recent-scans" *ngIf="recentScans.length > 0">
           <h2>Recent Scans</h2>
           <ion-list>
-            <ion-item *ngFor="let scan of recentScans">
+            <ion-item *ngFor="let scan of recentScans" (click)="viewScan(scan)">
               <ion-icon name="nutrition" slot="start"></ion-icon>
               <ion-label>
                 <h3>{{ scan.name }}</h3>
                 <p>{{ scan.date | date:'short' }}</p>
               </ion-label>
-              <ion-button fill="clear" (click)="viewScan(scan)">
-                View
-              </ion-button>
             </ion-item>
           </ion-list>
         </div>
