@@ -17,6 +17,36 @@ ion-card {
   font-size: 14px;
 }
 
+.recommendation-safe {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.recommendation-caution {
+  color: #ffc107;
+  font-weight: bold;
+}
+
+.recommendation-avoid {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+.severity-high {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+.severity-medium {
+  color: #ffc107;
+  font-weight: bold;
+}
+
+.severity-low {
+  color: #28a745;
+  font-weight: bold;
+}
+
 ion-chip {
   margin: 4px 0;
 }

@@ -19,6 +19,7 @@ export class UserProfilePage implements OnInit {
     dietaryRestrictions: []
   };
   newAllergy: string = '';
+  newMedication: string = '';
   newRestriction: string = '';
 
   commonConditions = [
@@ -64,6 +65,17 @@ export class UserProfilePage implements OnInit {
 
   removeAllergy(allergy: string) {
     this.userProfileService.removeAllergy(allergy);
+  }
+
+  addMedication() {
+    if (this.newMedication) {
+      this.userProfileService.addMedication(this.newMedication);
+      this.newMedication = '';
+    }
+  }
+
+  removeMedication(medication: string) {
+    this.userProfileService.removeMedication(medication);
   }
 
   addRestriction() {

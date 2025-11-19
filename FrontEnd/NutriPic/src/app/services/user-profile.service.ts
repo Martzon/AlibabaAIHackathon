@@ -13,6 +13,7 @@ export interface UserProfile {
   weight: number; // in kg
   medicalConditions: MedicalCondition[];
   allergies: string[];
+  medications: string[];
   dietaryPreferences: string[];
 }
 
@@ -27,6 +28,7 @@ export class UserProfileService {
     weight: 70,
     medicalConditions: [],
     allergies: [],
+    medications: [],
     dietaryPreferences: []
   };
 
@@ -54,6 +56,16 @@ export class UserProfileService {
     if (!this.userProfile.allergies.includes(allergy)) {
       this.userProfile.allergies.push(allergy);
     }
+  }
+
+  addMedication(medication: string): void {
+    if (!this.userProfile.medications.includes(medication)) {
+      this.userProfile.medications.push(medication);
+    }
+  }
+
+  removeMedication(medication: string): void {
+    this.userProfile.medications = this.userProfile.medications.filter(m => m !== medication);
   }
 
   removeAllergy(allergy: string): void {

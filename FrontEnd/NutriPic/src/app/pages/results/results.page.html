@@ -24,6 +24,19 @@
       </ion-card-header>
       
       <ion-card-content>
+        <!-- Extracted Text -->
+        <ion-list *ngIf="extractedText">
+          <ion-item-divider>
+            <ion-label>Extracted Label Text</ion-label>
+          </ion-item-divider>
+          
+          <ion-item>
+            <ion-label>
+              <p>{{ extractedText }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+
         <!-- Risk Assessment -->
         <ion-list>
           <ion-item-divider>
@@ -42,6 +55,29 @@
                 <ion-label>NOVA {{ getNovaCategory(item) }}</ion-label>
               </ion-chip>
               <p>{{ getNovaDescription(getNovaCategory(item)) }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+
+        <!-- Medical Analysis -->
+        <ion-list *ngIf="qwen3Analysis">
+          <ion-item-divider>
+            <ion-label>Medical Analysis</ion-label>
+          </ion-item-divider>
+          
+          <ion-item>
+            <ion-label>
+              <h2 [class]="'recommendation-' + getOverallRecommendationClass()">{{ getOverallRecommendationText() }}</h2>
+              <p>{{ qwen3Analysis.notes }}</p>
+            </ion-label>
+          </ion-item>
+          
+          <ion-item *ngFor="let issue of qwen3Analysis.issues; let i = index">
+            <ion-label>
+              <h3 [class]="'severity-' + issue.severity">{{ i + 1 }}. {{ issue.ingredient }}</h3>
+              <p><strong>Related to:</strong> {{ issue.related_medication_or_condition }}</p>
+              <p><strong>Why:</strong> {{ issue.mechanism }}</p>
+              <p><strong>Advice:</strong> {{ issue.advice }}</p>
             </ion-label>
           </ion-item>
         </ion-list>

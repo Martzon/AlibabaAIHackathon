@@ -13,6 +13,8 @@ import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, Io
 })
 export class ResultsPage implements OnInit {
   analysisResult: any;
+  qwen3Analysis: any;
+  extractedText: string = '';
   
   constructor(
     private router: Router,
@@ -26,6 +28,36 @@ export class ResultsPage implements OnInit {
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras?.state) {
       this.analysisResult = navigation.extras.state?.['analysisResult'];
+      this.qwen3Analysis = navigation.extras.state?.['qwen3Analysis'];
+      this.extractedText = navigation.extras.state?.['extractedText'] || '';
+      
+      // Save to recent scans
+      this.saveToRecentScans();
+    }
+  }
+  
+  saveToRecentScans() {
+    if (this.analysisResult && this.analysisResult.FoodItems && this.analysisResult.FoodItems.length > 0) {
+      const scan = {
+        id: Date.now(),
+        name: this.analysisResult.FoodItems[0].name,
+        date: new Date()
+      };
+      
+      // Get existing scans from localStorage
+      const scans = localStorage.getItem('recentScans');
+      let recentScans: any[] = scans ? JSON.parse(scans) : [];
+      
+      // Add new scan to the beginning of the array
+      recentScans.unshift(scan);
+      
+      // Keep only the last 10 scans
+      if (recentScans.length > 10) {
+        recentScans = recentScans.slice(0, 10);
+      }
+      
+      // Save to localStorage
+      localStorage.setItem('recentScans', JSON.stringify(recentScans));
     }
   }
   
@@ -63,6 +95,28 @@ export class ResultsPage implements OnInit {
   hasMedicalWarnings(): boolean {
     // For now, return false as we don't have specific warning logic
     return false;
+  }
+  
+  getOverallRecommendationClass(): string {
+    if (!this.qwen3Analysis) return '';
+    
+    switch (this.qwen3Analysis.overall_recommendation) {
+      case 'safe': return 'safe';
+      case 'caution': return 'caution';
+      case 'avoid': return 'avoid';
+      default: return '';
+    }
+  }
+  
+  getOverallRecommendationText(): string {
+    if (!this.qwen3Analysis) return '';
+    
+    switch (this.qwen3Analysis.overall_recommendation) {
+      case 'safe': return 'SAFE TO EAT';
+      case 'caution': return 'CAUTION ADVISED';
+      case 'avoid': return 'DO NOT EAT';
+      default: return 'UNKNOWN';
+    }
   }
   
   goBack() {

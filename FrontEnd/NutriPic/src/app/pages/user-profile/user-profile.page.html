@@ -116,6 +116,30 @@
 
     <ion-card>
       <ion-card-header>
+        <ion-card-title>Medications</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <div *ngFor="let medication of profile.medications" class="medication-item">
+            <ion-item>
+              <ion-label>{{ medication }}</ion-label>
+              <ion-button fill="clear" color="danger" (click)="removeMedication(medication)">
+                <ion-icon name="close"></ion-icon>
+              </ion-button>
+            </ion-item>
+          </div>
+        </ion-list>
+
+        <ion-item>
+          <ion-label position="stacked">Add Medication</ion-label>
+          <ion-input [(ngModel)]="newMedication" (keyup.enter)="addMedication()"></ion-input>
+          <ion-button slot="end" (click)="addMedication()">Add</ion-button>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
         <ion-card-title>Allergies</ion-card-title>
       </ion-card-header>
       <ion-card-content>
