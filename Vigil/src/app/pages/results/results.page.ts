@@ -15,6 +15,7 @@ export class ResultsPage implements OnInit {
   analysisResult: any;
   qwen3Analysis: any;
   extractedText: string = '';
+  private lastLoadedTimestamp: string | undefined;
 
   // Use inject() instead of constructor parameter injection
   private router = inject(Router);
@@ -26,16 +27,37 @@ export class ResultsPage implements OnInit {
   }
 
   ngOnInit() {
-    // Get the analysis result from navigation state
-    const navigation = this.router.getCurrentNavigation();
-    if (navigation?.extras?.state) {
-      this.analysisResult = navigation.extras.state?.['analysisResult'];
-      this.qwen3Analysis = navigation.extras.state?.['qwen3Analysis'];
-      this.extractedText = navigation.extras.state?.['extractedText'] || '';
+    this.loadAnalysisFromState(this.router.getCurrentNavigation()?.extras?.state);
+  }
 
-      // Save to recent scans
-      this.saveToRecentScans();
+  ionViewWillEnter() {
+    const state = (this.location.getState && this.location.getState()) || {};
+    this.loadAnalysisFromState(state);
+  }
+
+  private loadAnalysisFromState(state: any) {
+    if (!state) {
+      return;
     }
+
+    const analysisResult = state['analysisResult'];
+    const qwenAnalysis = state['qwen3Analysis'];
+    const extractedText = state['extractedText'] || '';
+
+    if (!analysisResult) {
+      return;
+    }
+
+    const timestamp = analysisResult?.Timestamp;
+    if (timestamp && this.lastLoadedTimestamp === timestamp) {
+      return;
+    }
+
+    this.lastLoadedTimestamp = timestamp;
+    this.analysisResult = analysisResult;
+    this.qwen3Analysis = qwenAnalysis;
+    this.extractedText = extractedText;
+    this.saveToRecentScans();
   }
 
   saveToRecentScans() {

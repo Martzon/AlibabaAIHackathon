@@ -26,6 +26,7 @@ export class CameraPage implements OnInit {
   private ossClient: OSS | null = null;
   private medicalFactsCache: string | null = null;
   private medicalFactsPromise: Promise<string> | null = null;
+  private analysisSource: string | undefined;
   
   // Use inject() instead of constructor parameter injection
   private router = inject(Router);
@@ -77,6 +78,7 @@ export class CameraPage implements OnInit {
 
       this.capturedImage = dataUrl;
       const analysisSource = await this.getImageSourceForAnalysis(dataUrl);
+      this.analysisSource = analysisSource;
       this.analyzeImage(analysisSource);
     } catch (error) {
       console.error('Error taking picture:', error);
@@ -100,6 +102,7 @@ export class CameraPage implements OnInit {
 
       this.capturedImage = dataUrl;
       const analysisSource = await this.getImageSourceForAnalysis(dataUrl);
+      this.analysisSource = analysisSource;
       this.analyzeImage(analysisSource);
     } catch (error) {
       console.error('Error selecting image:', error);
@@ -108,7 +111,13 @@ export class CameraPage implements OnInit {
   }
 
   async analyzeImage(imageOverride?: string) {
-    const imageToAnalyze = imageOverride || this.capturedImage;
+    let imageToAnalyze = imageOverride;
+    if (!imageToAnalyze) {
+      if (!this.analysisSource && this.capturedImage) {
+        this.analysisSource = await this.getImageSourceForAnalysis(this.capturedImage);
+      }
+      imageToAnalyze = this.analysisSource || this.capturedImage;
+    }
     if (!imageToAnalyze) {
       this.errorMessage = 'No image captured';
       return;
