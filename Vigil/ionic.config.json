@@ -1,0 +1,7 @@
+{
+  "name": "Vigil",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

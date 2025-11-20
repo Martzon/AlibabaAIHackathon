@@ -1,0 +1,121 @@
+.container {
+  padding: 16px;
+}
+
+.camera-card, .preview-card, .loading-card, .error-card, .gallery-card {
+  margin-bottom: 16px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  color: #000000;
+}
+
+.camera-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  
+  ion-icon {
+    margin-bottom: 16px;
+    color: #666666;
+  }
+  
+  p {
+    color: #666666;
+    text-align: center;
+  }
+}
+
+.image-preview {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+  
+  img {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.action-buttons {
+  display: flex;
+  gap: 16px;
+}
+
+.retry-button, .analyze-button {
+  flex: 1;
+  height: 50px;
+  font-weight: 600;
+}
+
+.action-button, .gallery-button {
+  height: 50px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  --background: var(--ion-color-primary);
+  --color: var(--ion-color-primary-contrast);
+}
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 16px;
+  background: #ffffff;
+  color: #000000;
+  
+  ion-spinner {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+    color: var(--ion-color-primary);
+  }
+  
+  p {
+    font-size: 16px;
+    font-weight: 500;
+    color: #000000;
+  }
+}
+
+.error-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px;
+  text-align: center;
+  background: #ffffff;
+  color: #000000;
+  
+  ion-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    color: var(--ion-color-danger);
+  }
+  
+  p {
+    margin-bottom: 16px;
+    font-size: 16px;
+    color: var(--ion-color-danger);
+  }
+}
+
+// Responsive design
+@media (min-width: 768px) {
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .action-button, .gallery-button, .retry-button, .analyze-button {
+    height: 56px;
+  }
+}

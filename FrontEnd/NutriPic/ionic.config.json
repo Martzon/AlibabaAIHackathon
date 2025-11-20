@@ -1,7 +1,0 @@
-{
-  "name": "NutriPic",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular-standalone"
-}

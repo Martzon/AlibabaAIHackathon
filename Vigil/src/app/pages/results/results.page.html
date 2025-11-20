@@ -1,0 +1,233 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Analysis Results
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Results</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="container" *ngIf="analysisResult">
+    <!-- Medical Analysis Summary -->
+    <ion-card class="summary-card" *ngIf="qwen3Analysis">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="medical" slot="start"></ion-icon>
+          Medical Analysis
+        </ion-card-title>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <div class="recommendation-summary">
+          <h2 [class]="'recommendation-' + getOverallRecommendationClass()">{{ getOverallRecommendationText() }}</h2>
+          <p>{{ qwen3Analysis.notes }}</p>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Extracted Text -->
+    <ion-card class="extracted-text-card" *ngIf="extractedText">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="document-text" slot="start"></ion-icon>
+          Extracted Label Text
+        </ion-card-title>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <div class="extracted-text-content">
+          <p>{{ extractedText }}</p>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- NOVA Overview -->
+    <ion-card class="nova-overview-card" *ngIf="getNovaOverview()">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="analytics-outline" slot="start"></ion-icon>
+          Processing Level
+        </ion-card-title>
+        <ion-card-subtitle>
+          Source: {{ getNovaSource() }}
+        </ion-card-subtitle>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <div class="nova-overview">
+          <h2>NOVA {{ getNovaOverview().overallNova || '—' }}</h2>
+          <p>{{ getNovaDescription(getNovaOverview().overallNova) }}</p>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Risk Assessment -->
+    <ion-card class="risk-assessment-card">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="warning" slot="start"></ion-icon>
+          Risk Assessment
+        </ion-card-title>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <ion-list>
+          <ion-item *ngFor="let item of analysisResult.FoodItems">
+            <ion-label>
+              <h2>{{ item.name }}</h2>
+              <!-- <p>Confidence: {{ (item.rate * 100).toFixed(2) }}%</p> -->
+              
+              <!-- NOVA Classification -->
+              <ion-chip [color]="getNovaCategory(item) === 1 ? 'success' : 
+                                getNovaCategory(item) === 2 ? 'primary' : 
+                                getNovaCategory(item) === 3 ? 'warning' : 'danger'">
+                <ion-label>NOVA {{ getNovaCategory(item) }}</ion-label>
+              </ion-chip>
+              <p>{{ getNovaDescription(getNovaCategory(item)) }}</p>
+              <ion-note color="medium" *ngIf="getFoodItemDetail(item)">
+                <ion-icon name="information-circle-outline"></ion-icon>
+                {{ getFoodItemDetail(item) }}
+              </ion-note>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Medical Issues -->
+    <ion-card class="medical-issues-card" *ngIf="qwen3Analysis && qwen3Analysis.issues && qwen3Analysis.issues.length > 0">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="alert-circle" slot="start"></ion-icon>
+          Medical Issues
+        </ion-card-title>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <ion-list>
+          <ion-item *ngFor="let issue of qwen3Analysis.issues; let i = index">
+            <ion-label>
+              <h3 [class]="'severity-' + issue.severity">{{ i + 1 }}. {{ issue.ingredient }}</h3>
+              <p><strong>Related to:</strong> {{ issue.related_medication_or_condition }}</p>
+              <p><strong>Why:</strong> {{ issue.mechanism }}</p>
+              <p><strong>Advice:</strong> {{ issue.advice }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Personalized Advice -->
+    <ion-card class="advice-card" *ngIf="hasPersonalizedRecommendations()">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="bulb" slot="start"></ion-icon>
+          Personalized Advice
+        </ion-card-title>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <ion-list>
+          <ion-item *ngFor="let advice of getPersonalizedRecommendations(); let i = index">
+            <ion-icon name="information-circle-outline" slot="start"></ion-icon>
+            <ion-label>{{ advice }}</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Recommendations -->
+    <ion-card class="recommendations-card" *ngIf="analysisResult.Insights && analysisResult.Insights.length > 0">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="star" slot="start"></ion-icon>
+          Recommendations
+        </ion-card-title>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <ion-list>
+          <ion-item *ngFor="let insight of analysisResult.Insights">
+            <ion-icon name="bulb-outline" slot="start"></ion-icon>
+            <ion-label>{{ insight }}</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Nutrition Summary -->
+    <ion-card class="nutrition-card" *ngIf="analysisResult.Nutrition">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="nutrition" slot="start"></ion-icon>
+          Nutrition Summary
+        </ion-card-title>
+        <ion-card-subtitle *ngIf="getNutritionSource()">
+          Source: {{ getNutritionSource() }}
+        </ion-card-subtitle>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <ion-list>
+          <ion-item>
+            <ion-label>Calories</ion-label>
+            <ion-note slot="end">{{ analysisResult.Nutrition.Calories }} kcal</ion-note>
+          </ion-item>
+          
+          <ion-item>
+            <ion-label>Protein</ion-label>
+            <ion-note slot="end">{{ analysisResult.Nutrition.Protein }}g</ion-note>
+          </ion-item>
+          
+          <ion-item>
+            <ion-label>Carbohydrates</ion-label>
+            <ion-note slot="end">{{ analysisResult.Nutrition.Carbs }}g</ion-note>
+          </ion-item>
+          
+          <ion-item>
+            <ion-label>Sugar</ion-label>
+            <ion-note slot="end">{{ analysisResult.Nutrition.Sugar }}g</ion-note>
+          </ion-item>
+          
+          <ion-item>
+            <ion-label>Fat</ion-label>
+            <ion-note slot="end">{{ analysisResult.Nutrition.Fat }}g</ion-note>
+          </ion-item>
+          
+          <ion-item *ngIf="analysisResult.Nutrition.Sodium !== undefined">
+            <ion-label>Sodium</ion-label>
+            <ion-note slot="end">{{ analysisResult.Nutrition.Sodium }}mg</ion-note>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+    
+    <ion-button expand="block" (click)="goBack()" color="primary" class="back-button">
+      Scan Another Product
+    </ion-button>
+  </div>
+  
+  <div class="container" *ngIf="!analysisResult">
+    <ion-card class="empty-state-card">
+      <ion-card-content>
+        <div class="empty-state-content">
+          <ion-icon name="search-outline" size="large" color="medium"></ion-icon>
+          <h3>No Analysis Results</h3>
+          <p>Please scan a food label first to see analysis results.</p>
+          <ion-button expand="block" routerLink="/tabs/home" color="primary">
+            Go to Home
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

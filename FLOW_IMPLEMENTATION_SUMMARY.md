@@ -1,7 +1,7 @@
 # Flow Implementation Summary
 
 ## Overview
-I've implemented the requested flow for the NutriScan application that follows this sequence:
+I've implemented the requested flow for the Vigil application that follows this sequence:
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │ Medical Profile │    │   Home Page     │    │  Camera/Gallery │

@@ -1,0 +1,94 @@
+ion-content {
+  --background: #f8f9fa;
+}
+
+.container {
+  padding: 16px;
+}
+
+ion-card {
+  margin: 0;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  color: #000000;
+}
+
+.camera-section {
+  text-align: center;
+  padding: 30px 0;
+}
+
+.image-preview {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.image-preview img {
+  max-width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.medical-advice {
+  margin-top: 8px;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  font-size: 14px;
+  color: #000000;
+}
+
+ion-spinner {
+  display: block;
+  margin: 20px auto;
+  color: var(--ion-color-primary);
+}
+
+ion-chip {
+  margin: 4px 0;
+}
+
+.action-button {
+  height: 50px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 16px;
+  --background: var(--ion-color-primary);
+  --color: var(--ion-color-primary-contrast);
+}
+
+ion-text[color="danger"] p {
+  color: var(--ion-color-danger);
+}
+
+ion-item {
+  --background: #ffffff;
+  --color: #000000;
+}
+
+ion-label {
+  color: #000000;
+}
+
+ion-item-divider {
+  --background: #f8f9fa;
+  --color: #000000;
+}
+
+ion-note {
+  color: #666666;
+}
+
+// Responsive design
+@media (min-width: 768px) {
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .action-button {
+    height: 56px;
+  }
+}
