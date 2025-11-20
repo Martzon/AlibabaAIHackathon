@@ -4,7 +4,15 @@
 
 export const environment = {
   production: false,
-  dashscopeApiKey: 'sk-76e3340f8f9e4b01bceff800fa3c65d8' // Replace with your actual DashScope API key
+  dashscopeApiKey: 'YOUR KEY HERE', // Replace with your actual DashScope API key
+  oss: {
+    region: 'oss-ap-southeast-1',
+    bucket: 'vigil-bucket',
+    folder: 'vigil-uploads',
+    accessKeyId: 'YOUR KEY HERE',
+    accessKeySecret: 'YOUR KEY HERE',
+    medicalFactsKey: 'medical-sources/medical_datasource.json'
+  }
 };
 
 /*

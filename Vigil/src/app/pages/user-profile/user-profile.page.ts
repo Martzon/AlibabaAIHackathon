@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { UserProfileService, UserProfile, MedicalCondition } from '../../services/user-profile.service';
 import { FormsModule } from '@angular/forms';
 import { NgIf, NgFor } from '@angular/common';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonItem, IonLabel, IonInput, IonSelect, IonSelectOption, IonButton, IonList, IonChip, IonIcon } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonItem, IonLabel, IonInput, IonSelect, IonSelectOption, IonButton, IonList, IonChip, IonIcon, IonToast } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { personCircle, fitness, close, medkit, warning } from 'ionicons/icons';
 
@@ -11,7 +11,7 @@ import { personCircle, fitness, close, medkit, warning } from 'ionicons/icons';
   templateUrl: './user-profile.page.html',
   styleUrls: ['./user-profile.page.scss'],
   standalone: true,
-  imports: [FormsModule, NgIf, NgFor, IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonItem, IonLabel, IonInput, IonSelect, IonSelectOption, IonButton, IonList, IonChip, IonIcon]
+  imports: [FormsModule, NgIf, NgFor, IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonItem, IonLabel, IonInput, IonSelect, IonSelectOption, IonButton, IonList, IonChip, IonIcon, IonToast]
 })
 export class UserProfilePage {
   profile: UserProfile;
@@ -23,6 +23,9 @@ export class UserProfilePage {
   newAllergy: string = '';
   newMedication: string = '';
   newRestriction: string = '';
+  toastOpen = false;
+  toastMessage = '';
+  hasUnsavedChanges = false;
 
   commonConditions = [
     { name: 'Diabetes', description: 'A group of metabolic disorders characterized by high blood sugar', dietaryRestrictions: ['sugar', 'refined carbs'] },
@@ -44,6 +47,8 @@ export class UserProfilePage {
 
   saveProfile() {
     this.userProfileService.updateUserProfile(this.profile);
+    this.hasUnsavedChanges = false;
+    this.presentToast('Profile saved successfully');
   }
 
   addCondition() {
@@ -54,33 +59,39 @@ export class UserProfilePage {
         description: '',
         dietaryRestrictions: []
       };
+      this.presentToast('Condition added');
     }
   }
 
   removeCondition(conditionName: string) {
     this.userProfileService.removeMedicalCondition(conditionName);
+    this.presentToast('Condition removed');
   }
 
   addAllergy() {
     if (this.newAllergy) {
       this.userProfileService.addAllergy(this.newAllergy);
       this.newAllergy = '';
+      this.presentToast('Allergy added');
     }
   }
 
   removeAllergy(allergy: string) {
     this.userProfileService.removeAllergy(allergy);
+    this.presentToast('Allergy removed');
   }
 
   addMedication() {
     if (this.newMedication) {
       this.userProfileService.addMedication(this.newMedication);
       this.newMedication = '';
+      this.presentToast('Medication added');
     }
   }
 
   removeMedication(medication: string) {
     this.userProfileService.removeMedication(medication);
+    this.presentToast('Medication removed');
   }
 
   addRestriction() {
@@ -90,16 +101,33 @@ export class UserProfilePage {
       }
       this.newCondition.dietaryRestrictions.push(this.newRestriction);
       this.newRestriction = '';
+      this.presentToast('Restriction added');
     }
   }
 
   removeRestriction(index: number) {
     if (this.newCondition.dietaryRestrictions) {
       this.newCondition.dietaryRestrictions.splice(index, 1);
+      this.presentToast('Restriction removed');
     }
   }
 
   selectCommonCondition(condition: any) {
     this.newCondition = { ...condition };
+    this.presentToast('Condition template loaded');
+  }
+
+  onFieldEdit() {
+    this.hasUnsavedChanges = true;
+  }
+
+  private presentToast(message: string) {
+    this.toastMessage = message;
+    if (this.toastOpen) {
+      this.toastOpen = false;
+      setTimeout(() => this.toastOpen = true, 50);
+    } else {
+      this.toastOpen = true;
+    }
   }
 }

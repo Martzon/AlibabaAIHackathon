@@ -1,17 +1,15 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
 import { Location, NgIf, NgFor } from '@angular/common';
-import { UserProfileService } from '../../services/user-profile.service';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonList, IonItem, IonLabel, IonChip, IonIcon, IonNote, IonText, IonButton, IonButtons, IonBackButton } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonList, IonItem, IonLabel, IonChip, IonIcon, IonNote, IonText, IonButton, IonButtons, IonBackButton } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { medical, documentText, warning, alertCircle, bulb, informationCircleOutline, star, bulbOutline, nutrition } from 'ionicons/icons';
+import { medical, documentText, warning, alertCircle, bulb, informationCircleOutline, star, bulbOutline, nutrition, analyticsOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-results',
   templateUrl: 'results.page.html',
   styleUrls: ['results.page.scss'],
-  imports: [NgIf, NgFor, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonList, IonItem, IonLabel, IonChip, IonIcon, IonNote, IonText, IonButton, IonButtons, IonBackButton]
+  imports: [NgIf, NgFor, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonList, IonItem, IonLabel, IonChip, IonIcon, IonNote, IonText, IonButton, IonButtons, IonBackButton]
 })
 export class ResultsPage implements OnInit {
   analysisResult: any;
@@ -20,13 +18,11 @@ export class ResultsPage implements OnInit {
 
   // Use inject() instead of constructor parameter injection
   private router = inject(Router);
-  private route = inject(ActivatedRoute);
   private location = inject(Location);
-  private userProfileService = inject(UserProfileService);
 
   constructor() {
     // Register the icons used in this page
-    addIcons({ medical, documentText, warning, alertCircle, bulb, informationCircleOutline, star, bulbOutline, nutrition });
+    addIcons({ medical, documentText, warning, alertCircle, bulb, informationCircleOutline, star, bulbOutline, nutrition, analyticsOutline });
   }
 
   ngOnInit() {
@@ -87,22 +83,6 @@ export class ResultsPage implements OnInit {
     }
   }
 
-  getMedicalAdvice(ingredient: string, novaCategory: number): string[] {
-    // Get personalized advice based on user profile
-    return this.userProfileService.getPersonalizedAdvice(ingredient, novaCategory);
-  }
-
-  getMedicalWarnings(item: any): string[] {
-    // For now, return empty array as we don't have specific warning logic
-    // This would be implemented based on medical conditions
-    return [];
-  }
-
-  hasMedicalWarnings(): boolean {
-    // For now, return false as we don't have specific warning logic
-    return false;
-  }
-
   getOverallRecommendationClass(): string {
     if (!this.qwen3Analysis) return '';
 
@@ -123,6 +103,34 @@ export class ResultsPage implements OnInit {
       case 'avoid': return 'DO NOT EAT';
       default: return 'UNKNOWN';
     }
+  }
+
+  getFoodItemDetail(item: any): string {
+    return item?.reason || item?.notes || '';
+  }
+
+  hasPersonalizedRecommendations(): boolean {
+    return Array.isArray(this.analysisResult?.PersonalizedRecommendations) 
+      && this.analysisResult.PersonalizedRecommendations.length > 0;
+  }
+
+  getPersonalizedRecommendations(): string[] {
+    if (!this.hasPersonalizedRecommendations()) {
+      return [];
+    }
+    return this.analysisResult.PersonalizedRecommendations;
+  }
+
+  getNovaOverview() {
+    return this.analysisResult?.NovaOverview;
+  }
+
+  getNovaSource(): string {
+    return this.analysisResult?.NovaOverview?.source || 'DashScope';
+  }
+
+  getNutritionSource(): string {
+    return this.analysisResult?.Nutrition?.source || '';
   }
 
   goBack() {

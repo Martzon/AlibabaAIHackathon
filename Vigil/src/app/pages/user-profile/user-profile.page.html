@@ -27,12 +27,12 @@
         <ion-list>
           <ion-item>
             <ion-label position="stacked">Age</ion-label>
-            <ion-input type="number" [(ngModel)]="profile.age" placeholder="Enter your age"></ion-input>
+            <ion-input type="number" [(ngModel)]="profile.age" placeholder="Enter your age" (ionInput)="onFieldEdit()"></ion-input>
           </ion-item>
           
           <ion-item>
             <ion-label position="stacked">Gender</ion-label>
-            <ion-select [(ngModel)]="profile.gender" placeholder="Select your gender">
+            <ion-select [(ngModel)]="profile.gender" placeholder="Select your gender" (ionChange)="onFieldEdit()">
               <ion-select-option value="male">Male</ion-select-option>
               <ion-select-option value="female">Female</ion-select-option>
               <ion-select-option value="other">Other</ion-select-option>
@@ -41,12 +41,12 @@
           
           <ion-item>
             <ion-label position="stacked">Height (cm)</ion-label>
-            <ion-input type="number" [(ngModel)]="profile.height" placeholder="Enter your height"></ion-input>
+            <ion-input type="number" [(ngModel)]="profile.height" placeholder="Enter your height" (ionInput)="onFieldEdit()"></ion-input>
           </ion-item>
           
           <ion-item>
             <ion-label position="stacked">Weight (kg)</ion-label>
-            <ion-input type="number" [(ngModel)]="profile.weight" placeholder="Enter your weight"></ion-input>
+            <ion-input type="number" [(ngModel)]="profile.weight" placeholder="Enter your weight" (ionInput)="onFieldEdit()"></ion-input>
           </ion-item>
         </ion-list>
       </ion-card-content>
@@ -184,8 +184,21 @@
     </ion-card>
 
     <!-- Save Button -->
+    <ion-chip *ngIf="hasUnsavedChanges" class="unsaved-chip" color="warning">
+      <ion-icon name="alert-circle" slot="start"></ion-icon>
+      <ion-label>Unsaved changes — tap Save Profile</ion-label>
+    </ion-chip>
+
     <ion-button expand="block" (click)="saveProfile()" color="primary" class="save-button">
       Save Profile
     </ion-button>
   </div>
+
+  <ion-toast
+    [isOpen]="toastOpen"
+    [message]="toastMessage"
+    duration="2000"
+    position="bottom"
+    (didDismiss)="toastOpen = false">
+  </ion-toast>
 </ion-content>

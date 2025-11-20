@@ -50,6 +50,26 @@
       </ion-card-content>
     </ion-card>
 
+    <!-- NOVA Overview -->
+    <ion-card class="nova-overview-card" *ngIf="getNovaOverview()">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="analytics-outline" slot="start"></ion-icon>
+          Processing Level
+        </ion-card-title>
+        <ion-card-subtitle>
+          Source: {{ getNovaSource() }}
+        </ion-card-subtitle>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <div class="nova-overview">
+          <h2>NOVA {{ getNovaOverview().overallNova || '—' }}</h2>
+          <p>{{ getNovaDescription(getNovaOverview().overallNova) }}</p>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
     <!-- Risk Assessment -->
     <ion-card class="risk-assessment-card">
       <ion-card-header>
@@ -73,6 +93,10 @@
                 <ion-label>NOVA {{ getNovaCategory(item) }}</ion-label>
               </ion-chip>
               <p>{{ getNovaDescription(getNovaCategory(item)) }}</p>
+              <ion-note color="medium" *ngIf="getFoodItemDetail(item)">
+                <ion-icon name="information-circle-outline"></ion-icon>
+                {{ getFoodItemDetail(item) }}
+              </ion-note>
             </ion-label>
           </ion-item>
         </ion-list>
@@ -103,7 +127,7 @@
     </ion-card>
 
     <!-- Personalized Advice -->
-    <ion-card class="advice-card">
+    <ion-card class="advice-card" *ngIf="hasPersonalizedRecommendations()">
       <ion-card-header>
         <ion-card-title>
           <ion-icon name="bulb" slot="start"></ion-icon>
@@ -113,15 +137,9 @@
       
       <ion-card-content>
         <ion-list>
-          <ion-item *ngFor="let item of analysisResult.FoodItems">
-            <ion-label>
-              <h2>{{ item.name }}</h2>
-              <div class="personalized-advice">
-                <ion-text color="medium" *ngFor="let advice of getMedicalAdvice(item.name, getNovaCategory(item)); let i = index">
-                  <p><ion-icon name="information-circle-outline"></ion-icon> {{ advice }}</p>
-                </ion-text>
-              </div>
-            </ion-label>
+          <ion-item *ngFor="let advice of getPersonalizedRecommendations(); let i = index">
+            <ion-icon name="information-circle-outline" slot="start"></ion-icon>
+            <ion-label>{{ advice }}</ion-label>
           </ion-item>
         </ion-list>
       </ion-card-content>
@@ -153,6 +171,9 @@
           <ion-icon name="nutrition" slot="start"></ion-icon>
           Nutrition Summary
         </ion-card-title>
+        <ion-card-subtitle *ngIf="getNutritionSource()">
+          Source: {{ getNutritionSource() }}
+        </ion-card-subtitle>
       </ion-card-header>
       
       <ion-card-content>
@@ -180,6 +201,11 @@
           <ion-item>
             <ion-label>Fat</ion-label>
             <ion-note slot="end">{{ analysisResult.Nutrition.Fat }}g</ion-note>
+          </ion-item>
+          
+          <ion-item *ngIf="analysisResult.Nutrition.Sodium !== undefined">
+            <ion-label>Sodium</ion-label>
+            <ion-note slot="end">{{ analysisResult.Nutrition.Sodium }}mg</ion-note>
           </ion-item>
         </ion-list>
       </ion-card-content>
